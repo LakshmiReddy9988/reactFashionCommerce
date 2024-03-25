@@ -6,10 +6,10 @@ function MainComponent() {
     <div className='container-fluid'>
   
   <div className='row'>
-      <div className='col-lg-2 col-md-3 col-sm-4'>
+      <div className='col-lg-3 col-md-4 col-sm-5'>
     <SideNav />
     </div>
-    <div className='col-lg-10 col-md-9 col-sm-8'>
+    <div className='col-lg-9 col-md-8 col-sm-7'>
     <Products />
     </div>
 
