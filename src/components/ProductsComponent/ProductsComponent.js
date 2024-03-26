@@ -9,6 +9,9 @@ import { Link } from 'react-router-dom';
 const Products=()=>{
 
     let productData= useSelector(state=>state.productReducer.products);
+    let sortedItems = productData
+      .slice()
+      .sort((a, b) => a?.product_name.localeCompare(b?.product_name));
     
     let cartData=useSelector(state=>state.cartReducer)
     console.log(cartData);
@@ -31,7 +34,7 @@ const Products=()=>{
     return(
  
         <div className='product-container'>
-    {productData.map((eachProduct,index)=>{
+    {sortedItems.map((eachProduct,index)=>{
 
             
 return(
