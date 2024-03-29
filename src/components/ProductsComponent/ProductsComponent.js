@@ -6,12 +6,18 @@ import { useEffect } from 'react';
 import { getProducts } from '../../Redux/Product/actions';
 import { addCartItem } from '../../Redux/Cart/cartSlice';
 import { Link } from 'react-router-dom';
-const Products=()=>{
+
+const Products=({sortKey})=>{
+
 
     let productData= useSelector(state=>state.productReducer.products);
-    let sortedItems = productData
-      .slice()
-      .sort((a, b) => a?.product_name.localeCompare(b?.product_name));
+    let sortedItems = [];
+    if(sortKey === 'name'){
+      sortedItems = productData.slice().sort((a, b) => a?.product_name.localeCompare(b?.product_name));
+    } else {
+      sortedItems = productData.slice().sort((a, b) => a?.price - b?.price);
+    }
+    
     
     let cartData=useSelector(state=>state.cartReducer)
     console.log(cartData);

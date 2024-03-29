@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import accordionSlice from '../../Redux/Accordion/accordionSlice'
 import { getCategories } from '../../Redux/Category/actions'
 import { filterByPrice, filterProducts } from '../../Redux/Product/productSlice'
-const SideNav = () => {
+const SideNav = ({setSortKey}) => {
 
     let accordionData= useSelector(state=>state.categoryReducer.categories);
     let  fetchedProductData= useSelector(state=>state.productReducer)
@@ -39,6 +39,16 @@ const SideNav = () => {
 
   return (
     <div className='side-nav'>
+        <div className='section-title'>
+            <h3>Sorting</h3>
+        </div>
+
+        <div>
+            <button className='btn btn-primary' onClick={() => setSortKey('name')}>Sort by Name</button>
+            <button className='btn btn-danger mx-3' onClick={() => setSortKey('price')}>Sort by Price</button>
+        </div>
+
+        
 
         <div className='section-title'>
             <h3>Category</h3>
