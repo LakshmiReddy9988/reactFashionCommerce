@@ -48,7 +48,7 @@ const Products = ({
   let cartData = useSelector((state) => state.cartReducer);
   // console.log("component created:" + showProducts + ":" + numberOfProducts);
   let dispatch = useDispatch();
-  const [pageNum, setPageNum] = useState(1);
+  let [pageNum, setPageNum] = useState(1);
   useEffect(() => {
     //entry point for products component
 
@@ -65,13 +65,24 @@ const Products = ({
     };
   }, []);
 
+  let page = 1;
+  console.log(page, 'page...')
+
   const handleScroll = () => {
-    // if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-      if (window.innerHeight + document.documentElement.scrollTop
-        === document.documentElement.offsetHeight){
-      setPageNum(prevPage => prevPage+1);
-      dispatch(getProducts(pageNum));
+    const scrollTop = document.documentElement.scrollTop
+    const scrollHeight = document.documentElement.scrollHeight
+    const clientHeight = document.documentElement.clientHeight
+    if (scrollTop + clientHeight >= scrollHeight) {
+      setPageNum((pageNum) => pageNum+1);
+      dispatch(getProducts(page+1));
+      page+=1;
     }
+    // if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+    //   if (window.innerHeight + document.documentElement.scrollTop
+    //     === document.documentElement.offsetHeight){
+    //   setPageNum(prevPage => prevPage+1);
+    //   dispatch(getProducts(pageNum));
+    // }
   };
 
   const addToCart = (product) => {
