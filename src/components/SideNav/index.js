@@ -56,7 +56,7 @@ const SideNav = ({
   };
 
   const expensiveFetchOperation = () => {
-    console.log("calculating the operation");
+    // console.log("calculating the operation");
     let result = 0;
     //fetch is taking a lot of time , we are mimicking this
     for (let i = 0; i < 1000000000; i++) {
@@ -74,16 +74,16 @@ const SideNav = ({
   const getMemoisedValue = function () {
     var startTime = performance.now();
 
-    console.log("calculated value:" + result);
+    // console.log("calculated value:" + result);
     var endTime = performance.now();
-    console.log("time taken for memoised operation:");
-    console.log(endTime - startTime);
+    // console.log("time taken for memoised operation:");
+    // console.log(endTime - startTime);
   };
 
   const filterData = (selectedCategory) => {
     const payload = { selectedCategory, products };
     dispatch(filterProducts(payload));
-    console.log(products);
+    // console.log(products);
   };
 
   function randomIntBetweenInterval(min, max) {
@@ -100,15 +100,21 @@ const SideNav = ({
         <h3>Sorting</h3>
       </div>
 
-      <div>
+      <div className="d-flex">
         <button className="btn btn-primary" onClick={() => setSortKey("name")}>
           Sort by Name
         </button>
         <button
-          className="btn btn-danger mx-3"
+          className="btn btn-danger mx-2"
           onClick={() => setSortKey("price")}
         >
           Sort by Price
+        </button>
+        <button
+          className="btn btn-danger mx-2"
+          onClick={() => setSortKey("id")}
+        >
+          Sort by ID
         </button>
       </div>
 

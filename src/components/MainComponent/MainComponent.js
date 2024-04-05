@@ -6,7 +6,7 @@ import CategoriesContext from "../../Context/CategoriesContext";
 //violation of separation of concerns
 //redux, mobx,context
 function MainComponent() {
-  const [sortKey, setSortKey] = useState("");
+  const [sortKey, setSortKey] = useState("id");
 
   //prop drilling + state in the main component =>to manage component usage
   let [showProducts, setShowProducts] = useState(false);

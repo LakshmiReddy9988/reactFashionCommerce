@@ -14,7 +14,7 @@ export const getProducts= createAsyncThunk(
 
     "getProducts",
 
-   ()=>{
+   (pageNum)=>{
 
     //browser native api=>fetch
 
@@ -31,6 +31,8 @@ export const getProducts= createAsyncThunk(
   
 
     */
+
+  console.log(pageNum, 'page')
   let products= fetch(process.env.REACT_APP_API_URL+"/getProducts").then(res=>res.json());
 
 let productsJSON=[{"id":1,"product_name":"Veal - Striploin","category_id":4,"product_img":"http://dummyimage.com/323x268.png/5fa2dd/ffffff","price":146.35,"created_on":"10/26/2023 00:00:00"},
@@ -1034,7 +1036,8 @@ let productsJSON=[{"id":1,"product_name":"Veal - Striploin","category_id":4,"pro
 {"id":999,"product_name":"Table Cloth 54x72 Colour","category_id":6,"product_img":"http://dummyimage.com/315x297.png/5fa2dd/ffffff","price":9.78,"created_on":"10/26/2023 00:00:00"},
 {"id":1000,"product_name":"Turkey - Breast, Boneless Sk On","category_id":10,"product_img":"http://dummyimage.com/314x263.png/ff4444/ffffff","price":15.78,"created_on":"10/26/2023 00:00:00"}]
 
-      return products;
+let startIndex = pageNum-1 ? ((pageNum-1) * 10)-1 : 0;
+      return productsJSON.slice(startIndex, pageNum*10);
    }
 );
 

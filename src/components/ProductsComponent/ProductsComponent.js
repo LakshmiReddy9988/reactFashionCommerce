@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./_products.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { getProducts } from "../../Redux/Product/actions";
 import { addCartItem } from "../../Redux/Cart/cartSlice";
 import { Link } from "react-router-dom";
@@ -34,39 +34,45 @@ const Products = ({
   //react can track variable changes using useState mostly
 
   let productData = useSelector((state) => state.productReducer.products);
+  console.log(productData, 'products with pageNum')
   let sortedItems = [];
   if (sortKey === "name") {
     sortedItems = productData
       .slice()
       .sort((a, b) => a?.product_name.localeCompare(b?.product_name));
   } else {
-    sortedItems = productData.slice().sort((a, b) => a?.price - b?.price);
+    sortedItems = productData.slice().sort((a, b) => Number(a[sortKey]) - Number(b[sortKey]));
   }
   // productData.push
 
-  console.log(
-    JSON.stringify(productData) +
-      "length is:" +
-      productData.length +
-      ":" +
-      productData[0]
-  );
   let cartData = useSelector((state) => state.cartReducer);
-  console.log("component created:" + showProducts + ":" + numberOfProducts);
+  // console.log("component created:" + showProducts + ":" + numberOfProducts);
   let dispatch = useDispatch();
+  const [pageNum, setPageNum] = useState(1);
   useEffect(() => {
     //entry point for products component
 
-    console.log("use effect called:" + showProducts);
-    dispatch(getProducts());
+    // console.log("use effect called:" + showProducts);
+    window.addEventListener('scroll', handleScroll);
+    dispatch(getProducts(pageNum));
 
     return function () {
+      window.removeEventListener('scroll', handleScroll);
       console.log("clean up called for product components");
       //clean all your unused data within the component
 
       //javascript is gc (mark and sweep)
     };
   }, []);
+
+  const handleScroll = () => {
+    // if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      if (window.innerHeight + document.documentElement.scrollTop
+        === document.documentElement.offsetHeight){
+      setPageNum(prevPage => prevPage+1);
+      dispatch(getProducts(pageNum));
+    }
+  };
 
   const addToCart = (product) => {
     // let productData={"id":10,"product_name":"Torn Tshirt","category_id":7,"product_img":"shop-9.jpg","price":115,"created_on":"2023-10-26 17:02:07"};
@@ -79,29 +85,28 @@ const Products = ({
     //will be sent to the reducers from the store
   };
 
-  let productDataNew = [];
-  for (let i = 0; i < numberOfProducts; i++) {
-    if (productData[i]) {
-      productDataNew.push(productData[i]);
-    }
-  }
+  // let productDataNew = [];
+  // for (let i = 0; i < numberOfProducts; i++) {
+  //   if (sortedItems[i]) {
+  //     productDataNew.push(sortedItems[i]);
+  //   }
+  // }
 
   return (
     <div className="product-container">
-      <button onClick={() => changeMainComponentVariable(40)}>
+      {/* <button onClick={() => changeMainComponentVariable(40)}>
         Change main component variable
-      </button>
+      </button> */}
 
       {showProducts &&
         //sortedItems.map() => to show sorted items
-        productDataNew.map((eachProduct, index) => {
+        sortedItems.map((eachProduct, index) => {
           return (
             <div className="mx-5 p-3 product-card" key={eachProduct.id}>
               <Link to="/productdetails" state={{ product: eachProduct }}>
                 <div className="product-image-container">
                   <img
-                    src={require("../../assets/images/shop/" +
-                      eachProduct.product_img)}
+                    src={eachProduct.product_img}
                     alt=""
                   />
                   {/* <img src={eachProduct.product_img} /> */}

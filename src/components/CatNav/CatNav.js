@@ -8,7 +8,7 @@ const CatNav= function()
 {
 
   let  categories= useSelector(state=>state.categoryReducer.categories);
-console.log(categories);
+// console.log(categories);
 
  const dispatch= useDispatch();
  
